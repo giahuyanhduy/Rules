@@ -18,30 +18,30 @@ if [ ! -s /tmp/50-usb-serial.rules ]; then
     exit 1
 fi
 
-# Sao chép file vào /etc/udev/rules.d/ với quyền root
+# Sao chép file vào /etc/udev/rules.d/
 echo "Đang sao chép file vào /etc/udev/rules.d/..."
-if ! sudo cp /tmp/50-usb-serial.rules "$DEST_PATH"; then
+if ! cp /tmp/50-usb-serial.rules "$DEST_PATH"; then
     echo "Lỗi: Không thể sao chép file vào $DEST_PATH. Vui lòng kiểm tra quyền."
     exit 1
 fi
 
 # Đặt quyền cho file rules
 echo "Đang đặt quyền cho file..."
-if ! sudo chmod 644 "$DEST_PATH"; then
+if ! chmod 644 "$DEST_PATH"; then
     echo "Lỗi: Không thể đặt quyền cho file."
     exit 1
 fi
 
 # Reload udev rules
 echo "Đang reload udev rules..."
-if ! sudo udevadm control --reload-rules; then
+if ! udevadm control --reload-rules; then
     echo "Lỗi: Không thể reload udev rules."
     exit 1
 fi
 
 # Trigger udev
 echo "Đang trigger udev..."
-if ! sudo udevadm trigger; then
+if ! udevadm trigger; then
     echo "Lỗi: Không thể trigger udev."
     exit 1
 fi
